@@ -18,6 +18,16 @@ RSpec.describe ListsController, type: :controller do
     end
   end
   
+  describe "POST#create" do
+    it "creates a new list" do
+      expect(List.count).to eq(1)
+      post :create, format: :json, title: "newer list"
+      
+      expect(List.count).to eq(2)
+      expect(response.status).to eq(201)
+    end
+  end
+  
   describe "POST#sorted" do
     it "gets all the lists and their active tasks sorted by title" do
       post :sorted, format: :json, sort_by: "title"
