@@ -13,6 +13,10 @@ class ListsController < ApplicationController
     respond_with List.lists_payload_sorted(params[:sort_by]), location: nil
   end
   
+  def destroy
+    respond_with List.find(params[:id]).destroy, location: nil
+  end
+  
   private
   
   def list_params
