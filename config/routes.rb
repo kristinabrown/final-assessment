@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post "/sorted", to: "lists#sorted"
   resources :tasks, only: [:create, :destroy]
   put "/status-change", to: "tasks#status_change"
+  root "lists#index"
 end
