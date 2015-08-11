@@ -14,6 +14,10 @@ class TasksController < ApplicationController
     respond_with task.update(complete: params[:complete]), location: nil
   end
   
+  def list_tasks
+    respond_with Task.where(list_id: params[:list]), location: nil
+  end
+  
   private
   
   def task_params
