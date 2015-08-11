@@ -14,7 +14,6 @@ RSpec.describe ListsController, type: :controller do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data.count).to eq(1)
-      expect(data.first[:tasks].count).to eq(2)
     end
   end
   

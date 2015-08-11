@@ -1,8 +1,8 @@
 class ListsController < ApplicationController
-  respond_to :json
+  respond_to :json, :html
   
   def index
-    respond_with List.lists_payload, location: nil
+    respond_with List.all, location: nil
   end
   
   def create
