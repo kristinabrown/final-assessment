@@ -18,4 +18,8 @@ RSpec.describe List, type: :model do
     @list.update(title: "")
     expect(@list).to_not be_valid
   end
+  
+  it "is has tasks" do
+    expect(@list.tasks).to eq([])
+  end
 end
