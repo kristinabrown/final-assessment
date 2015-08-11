@@ -9,6 +9,7 @@ var $listsDiv = $(".lists");
     renderedLists = lists.map(generateList);
     renderedLists.forEach(listClick);
     renderedLists.forEach(listClickDelete);
+    $(".new-list").empty();
     $listsDiv.empty();
    $listsDiv.append(renderedLists);
    var form = listForm();
