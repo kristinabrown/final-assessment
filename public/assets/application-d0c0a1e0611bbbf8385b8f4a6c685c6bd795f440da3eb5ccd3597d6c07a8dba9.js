@@ -10881,11 +10881,7 @@ function listClick(list){
     $(".new-task").append(form);
     $(".new-task").prepend("<a class='new-class-form-link'>add new task </a>")
     $(".new-class-form-link").on("click", function(){ $(".task-form").toggleClass("hidden")})
-    $.post("/list_tasks", {list: id} ).then(function(tasks){
-      $(".list-tasks").empty();
-      var renderedTasks = tasks.map(generateTask);
-      $(".list-tasks").append(renderedTasks);
-    });
+    renderTasks(id);
   });
 }
 
@@ -10938,12 +10934,49 @@ function addNewEvent(form){
     
     $.post("/tasks", {title: title, startdate: startDate, duedate: dueDate, note: note, list_id: listId } ).then(function(task){
       $(".task-form").toggleClass("hidden")
-      $(".list-tasks").prepend(generateTask(task));
+      renderTasks(listId);
     });
   });
 }
 
+function renderTasks(id){
+  $.post("/list_tasks", {list: id} ).then(function(tasks){
+    $(".list-tasks").empty();
+    var renderedTasks = tasks.map(generateTask);
+    renderedTasks.forEach(listClickDelete);
+    renderedTasks.forEach(listClickChangeStatus);
+    $(".list-tasks").append(renderedTasks);
+  });
+};
 
+function listClickDelete(task){
+  $(task).find(".delete").on("click", function() {
+    var $list = $(this).parents(".row");
+    var id = $list.data("id");
+    var list_id = $list.find(".list-id").text()
+
+    $.ajax({
+      method: "DELETE",
+      url: "/tasks/" + id,
+      data: { id: id }, 
+      success:  function(){
+        renderTasks(list_id);
+      }
+    });
+  });
+}
+
+function listClickChangeStatus(task){
+  $(task).find(".change-status").on("click", function() {
+    var $list = $(this).parents(".row");
+    var id = $list.data("id");
+    var list_id = $list.find(".list-id").text()
+
+    $.post("/status-change", {id: id} ).then(function(tasks){
+      renderTasks(list_id);
+    });
+  });
+}
 
 function taskForm(id){
   return $("<form class='col s12 hidden task-form'><div class='row'> <div class='input-field col s6'>" +
@@ -10959,12 +10992,12 @@ function taskForm(id){
 }
 
 function generateTask(task){
-  return $("<div class='row' data-id='" + task.id + "><div class='col s10 offset-s1'>" +
+  return $("<div class='row' data-id='" + task.id + "'><div class='col s10 offset-s1'>" +
          "<div class='col s12 m10'> <div class='card blue-grey darken-1 z-depth-3 display-cards hoverable'>" +
          "<div class='hidden'>" + task.id + "</div> <div class='card-content white-text'> <div class='card-image'>" +
          "<img src='alpaca.jpg' alt='task pic'><span class='card-title'> <h4>" + task.title + "</h4></span> </div>" +
-         "<p>" + task.note + "</p> </div> <div class='card-action card-foot blue-text text-darken-4'>" +
-         "<h6 class='red-text text-lighten-2'> Complete? " + task.complete + "</h6>" +
+         "<p>" + task.note + "</p><p>Start Date: " + new Date(task.startdate).toLocaleDateString() +"</p><p>Due Date: " + new Date(task.duedate).toLocaleDateString() +"</p> </div> <div class='card-action card-foot blue-text text-darken-4'>" +
+         "<h6 class='red-text text-lighten-2'> Complete: " + task.complete + "</h6><a class='change-status'>Change Status</a><div class='list-id hidden'>" + task.list_id + "</div>" +
          "<a class='delete right' href='#'>Delete</a> <a class='right' href='/tasks/" + task.id + "/edit'>Edit</a> </div> </div> </div> </div> </div>");
 }
 ;
