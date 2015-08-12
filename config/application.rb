@@ -17,6 +17,17 @@ Bundler.require(*Rails.groups)
 
 module FinalAssessment
   class Application < Rails::Application
+    config.action_mailer.delivery_method = :smtp 
+
+    config.action_mailer.smtp_settings = { 
+      address:              'smtp.mandrillapp.com', 
+      port:                 '587', 
+      domain:               'assessment.com', 
+      user_name:            ENV["MANDRILL_USER_NAME"], 
+      password:             ENV["MANDRILL_API_KEY"], 
+      authentication:       'plain', 
+      enable_starttls_auto: true 
+    }
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
