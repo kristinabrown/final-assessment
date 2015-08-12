@@ -2,16 +2,20 @@ class TasksController < ApplicationController
   respond_to :json
   
   def create
-    respond_with Task.create(task_params), location: nil
+    task = Task.create(task_params)
+    respond_with task, location: nil
   end
   
   def destroy
-    respond_with Task.find(params[:id]).delete, location: nil
+    task = Task.find(params[:id])
+    task.delete
+    respond_with task, location: nil
   end
   
   def status_change
     task = Task.find(params[:id])
-    respond_with task.change_status, location: nil
+    task.change_status
+    respond_with task, location: nil
   end
   
   def list_tasks
