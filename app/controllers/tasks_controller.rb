@@ -19,9 +19,13 @@ class TasksController < ApplicationController
   end
   
   def edit
+    @task = Task.find(params[:id])
   end
   
   def update
+    @task = Task.find(params[:id])
+    @task.update(task_params_update)
+    redirect_to lists_path
   end
   
   private
@@ -34,5 +38,15 @@ class TasksController < ApplicationController
                   :startdate, 
                   :list_id,
                   :attachment)
+  end
+  
+  def task_params_update
+    params.require(:task).permit(:title, 
+                                :complete, 
+                                :note, 
+                                :duedate, 
+                                :startdate, 
+                                :list_id,
+                                :attachment)
   end
 end

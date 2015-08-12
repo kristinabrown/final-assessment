@@ -1,0 +1,23 @@
+<div class="container">
+
+<h1>Edit Yo Task</h1>
+
+  <%= form_for @task do |f| %>
+    <%= f.text_field :title %><br>
+
+    <%= f.label :note %>
+    <%= f.text_field :note %><br>
+
+    <%= f.label :startdate %>
+    <%= f.date_field :startdate %><br>
+
+    <%= f.label :duetdate %>
+    <%= f.date_field :duedate %><br>
+
+    <%= f.label :attachment %>
+    <%= f.file_field :attachment %><br><br>
+
+    <%= f.submit %>
+  <% end %>
+
+</div>
