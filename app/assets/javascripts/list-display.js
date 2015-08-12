@@ -46,11 +46,7 @@ function listClick(list){
     $(".new-task").append(form);
     $(".new-task").prepend("<a class='new-class-form-link'>add new task </a>")
     $(".new-class-form-link").on("click", function(){ $(".task-form").toggleClass("hidden")})
-    $.post("/list_tasks", {list: id} ).then(function(tasks){
-      $(".list-tasks").empty();
-      var renderedTasks = tasks.map(generateTask);
-      $(".list-tasks").append(renderedTasks);
-    });
+    renderTasks(id);
   });
 }
 

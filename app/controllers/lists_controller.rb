@@ -14,7 +14,9 @@ class ListsController < ApplicationController
   end
   
   def destroy
-    respond_with List.find(params[:id]).destroy, location: nil
+    list = List.find(params[:id])
+    list.tasks.destroy_all
+    respond_with list.destroy, location: nil
   end
   
   private
