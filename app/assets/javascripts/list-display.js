@@ -6,11 +6,11 @@ function displayAll(){
 function getLists(){
 var $listsDiv = $(".lists");
   $.get("/lists").then(function(lists){
-    renderedLists = lists.map(generateList);
-    renderedLists.forEach(listClick);
-    renderedLists.forEach(listClickDelete);
     $(".new-list").empty();
     $listsDiv.empty();
+    var renderedLists = lists.map(generateList);
+    renderedLists.forEach(listRealClickDelete);
+    renderedLists.forEach(listClick);
    $listsDiv.append(renderedLists);
    var form = listForm();
    addNewListEvent(form);
@@ -33,7 +33,7 @@ function listForm(){
 function generateList(list){
   return $("<div class='row'> <h4 class=''>" + list.title + "</h4></div>" +
         "<div class = 'row' data-id="+ list.id + "><a href='#' class='link'>Click to view tasks</a>" + 
-        " | <a href='#' class='delete '>Delete This List</a></div>" );
+        " | <a href='#' class='delete-list'>Delete This List</a></div>" );
 }
 
 function listClick(list){
@@ -74,8 +74,8 @@ function addSortEvent(id) {
   });
 }
 
-function listClickDelete(list){
-  $(list).find(".delete").on("click", function() {
+function listRealClickDelete(list){
+  $(list).find(".delete-list").on("click", function() {
     var $list = $(this).parents(".row");
     var id = $list.data("id");
     var form = taskForm(id);
