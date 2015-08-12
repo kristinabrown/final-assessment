@@ -60,7 +60,8 @@ function renderButtons() {
   return $("<button class='btn waves-effect waves-light' id='incomplete'>Incomplete</button>" + 
            "<button class='btn waves-effect waves-light' id='complete'>Complete</button>" +
            "<button class='btn waves-effect waves-light' id='title'>Title</button>" +
-           "<button class='btn waves-effect waves-light' id='duedate'>Due Date</button>");
+           "<button class='btn waves-effect waves-light' id='duedate'>Due Date</button>"+
+           "<button class='btn waves-effect waves-light' id='startdate'>Start Date</button>")
 }
 
 function addSortEvent(id) {

@@ -21,6 +21,8 @@ class List < ActiveRecord::Base
       tasks.where(complete: true)
     elsif filter == "duedate"
       tasks.order(:duedate)
+    elsif filter == "startdate"
+      tasks.order(:startdate)
     elsif filter == "title"
       tasks.order(:title)
     end
