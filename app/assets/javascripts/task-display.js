@@ -18,6 +18,9 @@ function addNewEvent(form){
 function renderTasks(id){
   $.post("/list_tasks", {list: id} ).then(function(tasks){
     $(".list-tasks").empty();
+    $(".search-form").empty();
+    $(".search-form").append(rendersearchForm());
+    addSearchEvent(tasks);
     var renderedTasks = tasks.map(generateTask);
     renderedTasks.forEach(listClickDelete);
     renderedTasks.forEach(listClickChangeStatus);
