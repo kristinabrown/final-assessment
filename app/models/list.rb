@@ -13,4 +13,16 @@ class List < ActiveRecord::Base
       {list: list, tasks: list.tasks.where(complete: false).order(sort_by)}
     end
   end
+  
+  def order_tasks_by_filter(filter)
+    if filter == "incomplete"
+      tasks.where(complete: false)
+    elsif filter == "complete"
+      tasks.where(complete: true)
+    elsif filter == "duedate"
+      tasks.order(:duedate)
+    elsif filter == "title"
+      tasks.order(:title)
+    end
+  end
 end

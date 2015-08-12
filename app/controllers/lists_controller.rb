@@ -10,7 +10,7 @@ class ListsController < ApplicationController
   end
   
   def sorted
-    respond_with List.lists_payload_sorted(params[:sort_by]), location: nil
+    respond_with List.find(params[:id]).order_tasks_by_filter(params[:sort_by]), location: nil
   end
   
   def destroy

@@ -41,12 +41,36 @@ function listClick(list){
     var $list = $(this).parents(".row");
     var id = $list.data("id");
     $(".new-task").empty();
+    $(".filter-buttons").empty();
     var form = taskForm(id);
     addNewEvent(form);
     $(".new-task").append(form);
     $(".new-task").prepend("<a class='new-class-form-link'>add new task </a>")
+    $(".filter-buttons").prepend(renderButtons());
+    addSortEvent(id);
+    
     $(".new-class-form-link").on("click", function(){ $(".task-form").toggleClass("hidden")})
     renderTasks(id);
+  });
+}
+
+function renderButtons() {
+  return $("<button class='btn waves-effect waves-light' id='incomplete'>Incomplete</button>" + 
+           "<button class='btn waves-effect waves-light' id='complete'>Complete</button>" +
+           "<button class='btn waves-effect waves-light' id='title'>Title</button>" +
+           "<button class='btn waves-effect waves-light' id='duedate'>Due Date</button>");
+}
+
+function addSortEvent(id) {
+  $(".btn").on("click", function() {
+    var sortBy = $(this).attr('id')
+    $.post('/sorted', {id: id, sort_by: sortBy} ).then(function(tasks){
+      $(".list-tasks").empty();
+      var renderedTasks = tasks.map(generateTask);
+      renderedTasks.forEach(listClickDelete);
+      renderedTasks.forEach(listClickChangeStatus);
+      $(".list-tasks").append(renderedTasks);
+    });
   });
 }
 
