@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   
   def create
     task = Task.create(task_params)
+    new_mailer(task)
     respond_with task, location: nil
   end
   
@@ -29,6 +30,7 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     @task.update(task_params_update)
+    update_mailer(@task)
     redirect_to lists_path
   end
   
@@ -52,5 +54,21 @@ class TasksController < ApplicationController
                                 :startdate, 
                                 :list_id,
                                 :attachment)
+  end
+  
+  def new_mailer(task)
+    if task.title.include?("/cc")
+      split = task.title.split("/cc")
+      email = split.last.delete!(" ")
+      Notifier.new_task(email, task).deliver_later
+    end
+  end
+  
+  def update_mailer(task)
+    if task.title.include?("/cc")
+      split = task.title.split("/cc")
+      email = split.last.delete!(" ")
+      Notifier.update_task(email, task).deliver_later
+    end
   end
 end

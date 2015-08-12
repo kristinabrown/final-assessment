@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello, there</h1>
+    <h2>
+      Someone updated a task you're included on. The details are:  
+    </h2>
+    
+    <h3>
+      Title: <%= @task.title %>
+    </h3>
+    <p>
+      Note: <%= @task.note %>
+    </p> 
+    <p>
+      Due Date: <%= @task.duedate %>
+    </p> 
+     <h4>
+      Completed: <%= @task.complete %>
+    </h4>
+    <p>please reply with any questions.</p>
+  </body>
+</html>
