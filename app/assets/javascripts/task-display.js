@@ -33,13 +33,15 @@ function listClickDelete(task){
     var $list = $(this).parents(".row");
     var id = $list.data("id");
     var list_id = $list.find(".list-id").text()
-
+    
     $.ajax({
       method: "DELETE",
       url: "/tasks/" + id,
       data: { id: id }, 
       success:  function(){
         renderTasks(list_id);
+        var socket = io.connect('https://cryptic-scrubland-3747.herokuapp.com/');
+        socket.send('listClicked', list_id);
       }
     });
   });
@@ -53,6 +55,8 @@ function listClickChangeStatus(task){
 
     $.post("/status-change", {id: id} ).then(function(tasks){
       renderTasks(list_id);
+      var socket = io.connect('https://cryptic-scrubland-3747.herokuapp.com/');
+      socket.send('listClicked', list_id);
     });
   });
 }

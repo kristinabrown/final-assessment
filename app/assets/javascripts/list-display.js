@@ -41,6 +41,8 @@ function listClick(list){
     var $list = $(this).parents(".row");
     var id = $list.data("id");
     $(".new-task").empty();
+    var socket = io.connect('https://cryptic-scrubland-3747.herokuapp.com/');
+    socket.send('listClicked', id);
     $(".filter-buttons").empty();
     var form = taskForm(id);
     addNewEvent(form);
