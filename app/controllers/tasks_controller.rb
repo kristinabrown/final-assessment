@@ -11,11 +11,17 @@ class TasksController < ApplicationController
   
   def status_change
     task = Task.find(params[:id])
-    respond_with task.update(complete: params[:complete]), location: nil
+    respond_with task.change_status, location: nil
   end
   
   def list_tasks
     respond_with Task.where(list_id: params[:list]), location: nil
+  end
+  
+  def edit
+  end
+  
+  def update
   end
   
   private

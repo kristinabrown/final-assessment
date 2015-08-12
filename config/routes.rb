@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   post "/sorted", to: "lists#sorted"
   resources :tasks, only: [:create, :destroy]
   post "/list_tasks", to: "tasks#list_tasks"
-  put "/status-change", to: "tasks#status_change"
+  post "/status-change", to: "tasks#status_change"
   root "lists#index"
 end

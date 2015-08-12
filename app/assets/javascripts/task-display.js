@@ -20,6 +20,7 @@ function renderTasks(id){
     $(".list-tasks").empty();
     var renderedTasks = tasks.map(generateTask);
     renderedTasks.forEach(listClickDelete);
+    renderedTasks.forEach(listClickChangeStatus);
     $(".list-tasks").append(renderedTasks);
   });
 };
@@ -37,6 +38,18 @@ function listClickDelete(task){
       success:  function(){
         renderTasks(list_id);
       }
+    });
+  });
+}
+
+function listClickChangeStatus(task){
+  $(task).find(".change-status").on("click", function() {
+    var $list = $(this).parents(".row");
+    var id = $list.data("id");
+    var list_id = $list.find(".list-id").text()
+
+    $.post("/status-change", {id: id} ).then(function(tasks){
+      renderTasks(list_id);
     });
   });
 }
@@ -59,7 +72,7 @@ function generateTask(task){
          "<div class='col s12 m10'> <div class='card blue-grey darken-1 z-depth-3 display-cards hoverable'>" +
          "<div class='hidden'>" + task.id + "</div> <div class='card-content white-text'> <div class='card-image'>" +
          "<img src='alpaca.jpg' alt='task pic'><span class='card-title'> <h4>" + task.title + "</h4></span> </div>" +
-         "<p>" + task.note + "</p> </div> <div class='card-action card-foot blue-text text-darken-4'>" +
-         "<h6 class='red-text text-lighten-2'> Complete? " + task.complete + "</h6><div class='list-id hidden'>" + task.list_id + "</div>" +
+         "<p>" + task.note + "</p><p>Start Date: " + new Date(task.startdate).toLocaleDateString() +"</p><p>Due Date: " + new Date(task.duedate).toLocaleDateString() +"</p> </div> <div class='card-action card-foot blue-text text-darken-4'>" +
+         "<h6 class='red-text text-lighten-2'> Complete: " + task.complete + "</h6><a class='change-status'>Change Status</a><div class='list-id hidden'>" + task.list_id + "</div>" +
          "<a class='delete right' href='#'>Delete</a> <a class='right' href='/tasks/" + task.id + "/edit'>Edit</a> </div> </div> </div> </div> </div>");
 }
