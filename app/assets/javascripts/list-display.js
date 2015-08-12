@@ -103,3 +103,29 @@ function addNewListEvent(form){
   });
 }
 
+function rendersearchForm(){
+  return $("<div class='row'><div class='input-field col s6'>" +
+    "<input id='search' type='text' class='validate'>" +
+    "<label class='active' for='search'>Search</label></div></div>");
+}
+
+function addSearchEvent(tasks){
+  var $tasks = tasks
+  $("#search").on("keyup", function(){
+    $search = $(this).val();
+    $(".list-tasks").empty();
+    var goodTasks = [];
+    $tasks.forEach(function(task){ 
+      if(task.title.includes($search)){
+        goodTasks.push(task);
+      } 
+    });
+    
+    $(".list-tasks").empty();
+    var renderedTasks = goodTasks.map(generateTask);
+    renderedTasks.forEach(listClickDelete);
+    renderedTasks.forEach(listClickChangeStatus);
+    $(".list-tasks").append(renderedTasks);
+  })
+}
+
